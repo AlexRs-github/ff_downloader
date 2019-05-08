@@ -2,6 +2,11 @@ import requests, lxml.html, sys, time
 
 
 def platform_manager():
+    '''
+    Return type: List
+    Returns a list that contains the OS and the accompanying extension
+    '''
+
     platform = []
     if sys.platform == "win32":
         platform.append("win64")
@@ -17,6 +22,7 @@ def platform_manager():
 
 def ff_url(session, platform):
     '''
+    Return type: String
     Returns a link to the Firefox English (US) download
     '''
 
@@ -38,6 +44,7 @@ def ff_download(session, link, platform):
     '''
     Download the latest file for the platform
     '''
+    
     r = s.get(link, stream=True)
     with open(f"latest_firefox{str(platform[1])}", "wb") as f:
         for chunk in r.iter_content(chunk_size=1024):
@@ -50,5 +57,5 @@ if __name__ == '__main__':
     with requests.Session() as s:
         ff_download(s, ff_url(s, platform_manager()), platform_manager())
     end_time = time.time() - start_time
-    print(f"Total time: {end_time}")
+    print(f"Total time: {end_time} seconds")
     
