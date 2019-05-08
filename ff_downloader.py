@@ -25,6 +25,8 @@ def ff_url(session):
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     with requests.Session() as s:
         ff_url(s)
-        
+    end_time = time.time() - start_time
+    print(f"Total time: {end_time}")
