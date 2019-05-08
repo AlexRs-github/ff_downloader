@@ -2,7 +2,7 @@ import requests, lxml.html, sys, time
 
 def ff_url(session):
     '''
-    Returns a link to the Firefox English (US) download for windows
+    Returns a link to the Firefox English (US) download
     '''
     link = []
     platform = ""
@@ -27,3 +27,4 @@ def ff_url(session):
 if __name__ == '__main__':
     with requests.Session() as s:
         ff_url(s)
+        
