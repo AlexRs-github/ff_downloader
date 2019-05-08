@@ -34,16 +34,21 @@ def ff_url(session, platform):
     return link
 
 
-def ff_download(link,session, platform):
+def ff_download(session, link, platform):
     '''
     Download the latest file for the platform
     '''
-    r = s.get()
+    r = s.get(link, stream=True)
+    with open(f"latest_firefox{str(platform[1])}", "wb") as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    
 
 if __name__ == '__main__':
     start_time = time.time()
     with requests.Session() as s:
-        ff_url(s, platform_manager())
+        ff_download(s, ff_url(s, platform_manager()), platform_manager())
     end_time = time.time() - start_time
     print(f"Total time: {end_time}")
     
