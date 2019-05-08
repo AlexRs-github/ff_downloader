@@ -34,6 +34,12 @@ def ff_url(session, platform):
     return link
 
 
+def ff_download(link,session, platform):
+    '''
+    Download the latest file for the platform
+    '''
+    r = s.get()
+
 if __name__ == '__main__':
     start_time = time.time()
     with requests.Session() as s:
