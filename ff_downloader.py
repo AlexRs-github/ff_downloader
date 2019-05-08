@@ -1,32 +1,43 @@
 import requests, lxml.html, sys, time
 
-def ff_url(session):
+
+def platform_manager():
+    platform = []
+    if sys.platform == "win32":
+        platform.append("win64")
+        platform.append(".exe")
+    elif sys.platform == "linux2":
+        platform.append("linux64")
+        platform.append(".tar.gz")
+    elif sys.platform == "darwin":
+        platform.append("osx")
+        platform.append(".dmg")
+    return platform
+
+
+def ff_url(session, platform):
     '''
     Returns a link to the Firefox English (US) download
     '''
-    link = []
-    platform = ""
+
+    link = ""
+
     r = session.get("https://www.mozilla.org/en-US/firefox/all/")
     body = lxml.html.fromstring(r.content)
-    if sys.platform == "win32":
-        platform = "win64"
-    elif sys.platform == "linux2":
-        platform = "linux64"
-    elif sys.platform == "darwin":
-        platform = "osx"
-    xpath_ls = body.xpath(f"//a[@href='https://download.mozilla.org/?product=firefox-latest-ssl&os={platform}&lang=en-US'][contains(.,'Download')]")
+    
+    xpath_ls = body.xpath(f"//a[@href='https://download.mozilla.org/?product=firefox-latest-ssl&os={str(platform[0])}&lang=en-US'][contains(.,'Download')]")
     for element in xpath_ls:
         full_tag = lxml.html.tostring(element, encoding="unicode")
         attr = full_tag.split(" ")
         href = attr[1].replace("href=", "")
-        text = href.replace('\"', "")
-        link.append(text)
+        link = href.replace('\"', "")
     return link
 
 
 if __name__ == '__main__':
     start_time = time.time()
     with requests.Session() as s:
-        ff_url(s)
+        ff_url(s, platform_manager())
     end_time = time.time() - start_time
     print(f"Total time: {end_time}")
+    
