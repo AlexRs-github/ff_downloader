@@ -1,9 +1,14 @@
-#vscode ignore
+#vscode/vs ignore
+.vs
 .vscode/*
 .vscode/settings.json
 .vscode/tasks.json
 .vscode/launch.json
 .vscode/extensions.json
+slnx.sqlite
+VSWorkspaceState.json
+Download Bot/v15
+.suo
 
 #firefox files ignore
 latest_firefox.*
